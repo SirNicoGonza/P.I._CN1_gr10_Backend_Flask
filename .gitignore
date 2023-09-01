@@ -1,0 +1,5 @@
+# Archivos temporales generados por el IDE
+.idea/
+
+# Archivos de registro
+*.log
