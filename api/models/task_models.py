@@ -57,8 +57,12 @@ class Mensaje:
     
 class Category:
     def __init__(self, **kwargs):
-        self.id = kwargs.get('id')
-        self.nombre = kwargs.get('nombre')    
+        self.id = kwargs.get('id')        self.nombre = kwargs.get('nombre')
+
+        self.descripcion = kwargs.get('descripcion')
+        self.servidores = [] 
+
+        
 
 class TaskItem:
     def _init_(self, **kwargs):
