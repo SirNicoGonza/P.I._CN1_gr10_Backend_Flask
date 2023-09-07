@@ -54,3 +54,8 @@ class Mensaje:
 
     def _str_(self):
         return f"{self.fecha_hora}: {self.id_remitente} - {self.contenido}"
+    
+class Category:
+    def __init__(self, **kwargs):
+        self.id = kwargs.get('id')
+        self.nombre = kwargs.get('nombre')    
