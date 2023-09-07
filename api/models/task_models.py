@@ -59,3 +59,12 @@ class Category:
     def __init__(self, **kwargs):
         self.id = kwargs.get('id')
         self.nombre = kwargs.get('nombre')    
+
+class TaskItem:
+    def _init_(self, **kwargs):
+        self.nombre = kwargs.get('nombre')
+        self.descripcion = kwargs.get('descripcion')
+        self.fecha_vencimiento = kwargs.get('fecha_vencimiento')
+        self.asignado_a = kwargs.get('asignado_a')
+        self.estado = kwargs.get('estado')
+        self.prioridad = kwargs.get('prioridad')
