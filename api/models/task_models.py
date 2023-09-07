@@ -1,11 +1,11 @@
 ##
 class Usuario:
-    def _init_(self, id, nombre_usuario, contraseña, correo_electronico, imagen_perfil):
-        self.id = id
-        self.nombre_usuario = nombre_usuario
-        self.contraseña = contraseña
-        self.correo_electronico = correo_electronico
-        self.imagen_perfil = imagen_perfil
+    def _init_(self, **kwargs):
+        self.id = kwargs.get('id')
+        self.nombre_usuario = kwargs.get('nombre_usuario')
+        self.contraseña = kwargs.get('contraseña')
+        self.correo_electronico = kwargs.get('correo_electronico')
+        self.imagen_perfil = kwargs.get('imagen_perfil')
         self.amigos = []  # Lista de amigos
         self.servidores = []  # Lista de servidores a los que pertenece
 
@@ -17,11 +17,11 @@ class Usuario:
 
 
 class Servidor:
-    def _init_(self, id, nombre, descripcion, id_creador):
-        self.id = id
-        self.nombre = nombre
-        self.descripcion = descripcion
-        self.id_creador = id_creador
+    def __init__(self, **kwargs):
+        self.id = kwargs.get('id')
+        self.nombre = kwargs.get('nombre')
+        self.descripcion = kwargs.get('descripcion')
+        self.id_creador = kwargs.get('id_creador')
         self.canales = []  # Lista de canales dentro del servidor
         self.miembros = []  # Lista de miembros (usuarios) del servidor
 
@@ -33,11 +33,11 @@ class Servidor:
 
 
 class Canal:
-    def _init_(self, id, nombre, id_servidor, id_creador):
-        self.id = id
-        self.nombre = nombre
-        self.id_servidor = id_servidor
-        self.id_creador = id_creador
+    def _init_(self, **kwargs):
+        self.id = kwargs.get('id')
+        self.nombre = kwargs.get('nombre')
+        self.id_servidor = kwargs.get('id_servidor')
+        self.id_creador = kwargs.get('id_creador')
         self.mensajes = []  # Lista de mensajes en el canal
 
     def enviar_mensaje(self, mensaje):
@@ -45,12 +45,12 @@ class Canal:
 
 
 class Mensaje:
-    def _init_(self, id, contenido, fecha_hora, id_canal, id_remitente):
-        self.id = id
-        self.contenido = contenido
-        self.fecha_hora = fecha_hora
-        self.id_canal = id_canal
-        self.id_remitente = id_remitente
+    def _init_(self, **kwargs):
+        self.id = kwargs.get('id')
+        self.contenido = kwargs.get('contenido')
+        self.fecha_hora = kwargs.get('fecha_hora')
+        self.id_canal = kwargs.get('id_canal')
+        self.id_remitente = kwargs.get('id_remitente')
 
     def _str_(self):
         return f"{self.fecha_hora}: {self.id_remitente} - {self.contenido}"
