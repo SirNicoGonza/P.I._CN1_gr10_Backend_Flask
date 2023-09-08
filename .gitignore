@@ -3,3 +3,5 @@
 
 # Archivos de registro
 *.log
+
+.env
