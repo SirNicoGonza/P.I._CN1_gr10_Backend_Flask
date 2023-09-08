@@ -12,6 +12,7 @@ class DatabaseConnection:
                 user = cls._config['DATABASE_USERNAME'],
                 port = cls._config['DATABASE_PORT'],
                 password = cls._config['DATABASE_PASSWORD']
+                database='mensajeria'
             )
         
         return cls._connection
