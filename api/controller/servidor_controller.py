@@ -1,7 +1,11 @@
 #Controladro de los servidores
 class ServidorController:
     ###Aqui definimos los metodos de clase
+    @classmethod
+    def crear_servidor(cls, id_usuario, nombre):
+        pass
     
+
     def __init__(self, **kwargs):
         self.id = kwargs.get('id')
         self.nombre = kwargs.get('nombre')

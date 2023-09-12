@@ -2,6 +2,14 @@
 
 class MensajeController:
     ###Aqui definimos los metodos de clase
+    @classmethod
+    def conseguir_mensajes(cls):
+        pass
+
+    @classmethod
+    def enviar_mensaje(cls, texto):
+        pass
+
     
     def _init_(self, **kwargs):
         self.id = kwargs.get('id')
