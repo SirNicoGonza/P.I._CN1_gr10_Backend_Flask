@@ -1,7 +1,11 @@
 # Aqui van las Clases  Usuarios
 class UsuarioController:
     ###Aqui definimos los metodos de clase
-    
+    @classmethod
+    def crear_usuario(cls,nombre, email, contraseña):
+        pass
+        
+
     def _init_(self, **kwargs):
         self.id = kwargs.get('id')
         self.nombre_usuario = kwargs.get('nombre_usuario')
