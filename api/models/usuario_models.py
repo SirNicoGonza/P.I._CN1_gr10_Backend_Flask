@@ -1,6 +1,7 @@
 ## Tendria que ir la coneccion a la base de datos
 from ..datebase import DatabaseConnection
 
+
 class Usuario:
     def _init_(self, **kwargs):
         self.id = kwargs.get('id')
