@@ -1,9 +1,19 @@
-from controllers import app
+from flask import Flask, jsonify
+from api.datebase import DatabaseConnection
+from api.routes import auth_bp
+
+app = Flask(__name__)
+
+@app.route('/prueba_db')
+def prueba_db():
+    # Realizar una consulta de ejemplo a la base de datos
+    query = "SELECT * FROM usuarios"
+    resultado = DatabaseConnection.fetch_all(query)
+
+    
+    return str(resultado)
+
+app.register_blueprint(auth_bp, url_prefix='/auth')
 
 if __name__ == '__main__':
-    app.run(debug=True)
-
-@app.route('/practida')
-def practica():
-    """ Es este es un endpoint para practicar"""
-    return {'mensaje':'Es una practica'}
+    app.run()

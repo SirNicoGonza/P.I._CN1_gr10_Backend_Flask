@@ -1,4 +1,6 @@
 import mysql.connector
+from config import Config
+
 
 class DatabaseConnection:
     _connection = None
