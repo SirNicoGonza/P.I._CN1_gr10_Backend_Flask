@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from controller.user_controller import Usuario
+from ..controller.user_controller import UsuarioController
 
 # Crear un Blueprint para las rutas relacionadas con usuarios
 usuario_bp = Blueprint('usuario', __name__)
@@ -11,7 +11,7 @@ def registro_usuario():
     datos_registro = request.json
     
     # Crear un objeto Usuario con los datos recibidos
-    nuevo_usuario = Usuario(
+    nuevo_usuario = UsuarioController(
         nombre_usuario=datos_registro.get('nombre_usuario'),
         contraseña=datos_registro.get('contraseña'),
         correo_electronico=datos_registro.get('correo_electronico'),
@@ -19,7 +19,7 @@ def registro_usuario():
     )
     
     # Llamar al método para crear un usuario en la base de datos
-    respuesta = Usuario.crear_usuario(nuevo_usuario)
+    respuesta = UsuarioController.crear_usuario(nuevo_usuario)
     
     if "error" in respuesta:
         # Si hay un error, responder con un mensaje de error
