@@ -1,9 +1,7 @@
-## Tendria que ir la coneccion a la base de datos
-from ..datebase import DatabaseConnection
-
+from api.datebase import DatabaseConnection
 
 class Usuario:
-    def _init_(self, **kwargs):
+    def __init__(self, **kwargs):
         self.id = kwargs.get('id')
         self.nombre_usuario = kwargs.get('nombre_usuario')
         self.contraseña = kwargs.get('contraseña')
@@ -19,29 +17,40 @@ class Usuario:
         self.servidores.append(servidor)
     
     @classmethod
-    def crear_usuario(cls,usuario):
+    def crear_usuario(cls, usuario):
         """Crea un nuevo usuario"""
-        query= """INSERT INTO mensajeria.usuarios (nombre_usuario, contraseña, correo_electronico, imagen_perfil) VALUES (%s, %s, %s, %s);"""
-        params= (usuario.nombre_usuario, usuario.contraseña, usuario.correo_electronico, usuario.imagen_perfil)
-        DatabaseConnection.execute_query(query,params)
-        DatabaseConnection.close_connection()
+        query = """INSERT INTO mensajeria.usuarios (nombre_usuario, contraseña, correo_electronico, imagen_perfil) VALUES (%s, %s, %s, %s)"""
+        params = (usuario.nombre_usuario, usuario.contraseña, usuario.correo_electronico, usuario.imagen_perfil)
+
+        # Imprimir la consulta SQL completa
+        print("Query: ", query)
+        print("Params: ", params)
+
+        try:
+            cursor = DatabaseConnection.execute_query(query, params)
+            id_usuario = cursor.lastrowid
+            DatabaseConnection.close_connection()
+            return {"mensaje": "Usuario creado exitosamente", "id_usuario": id_usuario}
+        except Exception as e:
+            print("Error executing query: ", e)
+            return {"error": str(e)}
+
+
     
     @classmethod
     def get_usuario(cls, id_usuario):
-        """ Metodo para traer la informacion de un usuario. """
-        query= """SELECT nombre_usuario, contraseña, correo_electronico, imagen_perfil FROM mensajeria.usuarios WHERE id = %s;"""
-        params= id_usuario
-        resultado= DatabaseConnection.fetch_one(query, params)
+        """ Método para traer la información de un usuario. """
+        query = """SELECT nombre_usuario, contraseña, correo_electronico, imagen_perfil FROM mensajeria.usuarios WHERE id = %s;"""
+        params = id_usuario
+        resultado = DatabaseConnection.fetch_one(query, params)
         DatabaseConnection.close_connection()
         if resultado is not None:
-            aux= Usuario(id= id_usuario,
-                        nombre_usuario= resultado[0], 
-                        contraseña= resultado[1],
-                        correo_electronico= resultado[2],
-                        imagen_perfil= resultado[3] 
-                        )
+            aux = Usuario(id=id_usuario,
+                          nombre_usuario=resultado[0],
+                          contraseña=resultado[1],
+                          correo_electronico=resultado[2],
+                          imagen_perfil=resultado[3]
+                          )
             return aux.__dict__
-            
-        
         else:
-            return {'Mensaje': 'El cliente no existe'} # Luego lo cambiamos por el manejo de errore s
+            return {'Mensaje': 'El cliente no existe'}  # Luego lo cambiamos por el manejo de errores

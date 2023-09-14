@@ -9,27 +9,36 @@ class DatabaseConnection:
     @classmethod
     def get_connection(cls):
         if cls._connection is None:
+            
+            cls._config = Config()  
+
             cls._connection = mysql.connector.connect(
-                host = cls._config['DATABASE_HOST'],
-                user = cls._config['DATABASE_USERNAME'],
-                port = cls._config['DATABASE_PORT'],
-                password = cls._config['DATABASE_PASSWORD'],
+                host=cls._config.DATABASE_HOST,
+                user=cls._config.DATABASE_USERNAME,
+                port=cls._config.DATABASE_PORT,
+                password=cls._config.DATABASE_PASSWORD,
                 database='mensajeria'
             )
-        
+
         return cls._connection
+
 
     @classmethod
     def set_config(cls, config):
         cls._config = config
     
     @classmethod
-    def execute_query(cls, query, database_name=None, params=None):
+    def execute_query(cls, query, params=None):
         cursor = cls.get_connection().cursor()
-        cursor.execute(query, params)
+        try:
+            cursor.execute(query, params)
+            print("Executing SQL query: ", cursor.statement)
+        except Exception as e:
+            print("Error executing query: ", e)
         cls._connection.commit()
         
         return cursor
+
     
     @classmethod
     def fetch_all(cls, query, database_name=None, params=None):

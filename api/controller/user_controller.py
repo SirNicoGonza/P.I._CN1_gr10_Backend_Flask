@@ -17,10 +17,10 @@ class UsuarioController:
         self.servidores.append(servidor)
 
     @classmethod
-    def crear_usuario(cls, nombre, correo_electronico, contraseña):
+    def crear_usuario(cls, usuario):
         # Crear un nuevo usuario en la base de datos
-        query = "INSERT INTO usuarios (nombre_usuario, correo_electronico, contraseña) VALUES (%s, %s, %s)"
-        params = (nombre, correo_electronico, contraseña)
+        query = "INSERT INTO usuarios (nombre_usuario, contraseña, correo_electronico, imagen_perfil) VALUES (%s, %s, %s, %s)"
+        params = (usuario.nombre_usuario, usuario.contraseña, usuario.correo_electronico, usuario.imagen_perfil)
 
         try:
             cursor = DatabaseConnection.execute_query(query, params)
@@ -29,6 +29,7 @@ class UsuarioController:
             return {"mensaje": "Usuario creado exitosamente", "id_usuario": usuario_id}
         except Exception as e:
             return {"error": str(e)}
+
 
     @classmethod
     def obtener_usuario_por_id(cls, id_usuario):
