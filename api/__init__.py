@@ -19,7 +19,7 @@ def init_app():
 
     DatabaseConnection.set_config(app.config)
 
-    app.register_blueprint(usuario_bp, url_prefix='/films')
+    app.register_blueprint(usuario_bp, url_prefix='/user')
 
     return app
 
