@@ -10,7 +10,7 @@ def registro_usuario():
     # Obtener los datos del formulario o del JSON de la solicitud
     datos_registro = request.json
     
-    # Crear un objeto Usuario con los datos recibidos
+    # Crear un objeto UsuarioController con los datos recibidos
     nuevo_usuario = UsuarioController(
         nombre_usuario=datos_registro.get('nombre_usuario'),
         contraseña=datos_registro.get('contraseña'),
