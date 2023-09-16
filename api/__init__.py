@@ -4,7 +4,6 @@ from config import Config
 
 from .routes.rutas_bp import usuario_bp
 from .datebase import DatabaseConnection
-#from .models.exceptions import CustomException, FilmNotFound,InvalidDataError  # Importamos las excepciones necesarias
 
 def init_app():
     """Crea y configura la aplicación Flask"""
@@ -19,7 +18,6 @@ def init_app():
 
     DatabaseConnection.set_config(app.config)
 
-    app.register_blueprint(usuario_bp, url_prefix='/user')
+    app.register_blueprint(usuario_bp, url_prefix='/usuario')
 
     return app
-

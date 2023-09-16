@@ -1,4 +1,5 @@
-#Modelo Servidor
+from api.datebase import DatabaseConnection
+
 class Servidor:
     def __init__(self, **kwargs):
         self.id = kwargs.get('id')

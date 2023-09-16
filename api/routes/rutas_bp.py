@@ -1,5 +1,7 @@
 from flask import Blueprint, request, jsonify
-from ..models.usuario_models import Usuario  # Cambio de importación
+from ..models.usuario_models import Usuario  
+from ..controller.servidor_controller import ServidorController
+
 
 # Crear un Blueprint para las rutas relacionadas con usuarios
 usuario_bp = Blueprint('usuario', __name__)
@@ -27,3 +29,18 @@ def registro_usuario():
 
     # Si no hay errores, responder con un mensaje de éxito
     return jsonify({"mensaje": "Registro exitoso", "usuario_creado": respuesta["id_usuario"]}), 200
+
+
+@usuario_bp.route('/crear_servidor', methods=['POST'])
+def crear_servidor():
+    datos_servidor = request.json
+    nombre = datos_servidor.get('nombre')
+    descripcion = datos_servidor.get('descripcion')
+    id_creador = datos_servidor.get('id_creador')  #  el ID del usuario que crea el servidor
+
+    respuesta = ServidorController.crear_servidor(id_creador, nombre, descripcion)
+
+    if "error" in respuesta:
+        return jsonify({"mensaje": "Error al crear el servidor", "error": respuesta["error"]}), 500
+
+    return jsonify({"mensaje": "Servidor creado exitosamente", "id_servidor": respuesta["id_servidor"]}), 200

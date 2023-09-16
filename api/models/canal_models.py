@@ -1,4 +1,6 @@
 # Modelo de canal
+from api.datebase import DatabaseConnection
+
 class Canal:
     def _init_(self, **kwargs):
         self.id = kwargs.get('id')
