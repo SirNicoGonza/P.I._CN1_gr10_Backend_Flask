@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
-from ..models.usuario_models import Usuario  
+from ..models.usuario_models import Usuario
+from ..controller.user_controller import UsuarioController  
 from ..controller.servidor_controller import ServidorController
 from ..controller.canal_controller import CanalController
 from ..controller.mensaje_controller import MensajeController
@@ -31,6 +32,11 @@ def registro_usuario():
     # Si no hay errores, responder con un mensaje de éxito
     return jsonify({"mensaje": "Registro exitoso", "usuario_creado": respuesta["id_usuario"]}), 200
 
+@usuario_bp.route('/get_usuario/<int:id_usuario>', methods= ['GET'])
+def obtener_usuario(id_usuario):
+    """ Metodo para obtener la info de un usuario"""
+    UsuarioController.obtener_usuario_por_id(id_usuario)
+    
 
 @usuario_bp.route('/crear_servidor', methods=['POST'])
 def crear_servidor():
