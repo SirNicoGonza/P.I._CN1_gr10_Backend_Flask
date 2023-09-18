@@ -47,11 +47,13 @@ class DatabaseConnection:
         return cursor.fetchall()
     
     @classmethod
-    def fetch_one(cls, query, database_name=None, params=None):
+    def fetch_one(cls, query, params=None):
         cursor = cls.get_connection().cursor()
         cursor.execute(query, params)
-        
-        return cursor.fetchone()
+        result = cursor.fetchone()
+        cursor.close()  # Cierra el cursor después de obtener el resultado
+        return result
+
     
     @classmethod
     def close_connection(cls):

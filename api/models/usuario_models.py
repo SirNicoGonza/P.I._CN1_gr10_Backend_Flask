@@ -1,6 +1,7 @@
 from api.datebase import DatabaseConnection
 
-class Usuario:
+
+class Usuario():
     def __init__(self, **kwargs):
         self.id = kwargs.get('id')
         self.nombre_usuario = kwargs.get('nombre_usuario')
@@ -15,7 +16,15 @@ class Usuario:
 
     def unirse_a_servidor(self, servidor):
         self.servidores.append(servidor)
-    
+   
+    def get_id(self):
+        """Método requerido por Flask-Login para obtener la ID del usuario"""
+        return str(self.id)
+
+    def is_authenticated(self):
+        """Método requerido por Flask-Login para verificar si el usuario está autenticado"""
+        return True
+   
     @classmethod
     def crear_usuario(cls, usuario):
         """Crea un nuevo usuario"""
@@ -23,8 +32,8 @@ class Usuario:
         params = (usuario.nombre_usuario, usuario.contraseña, usuario.correo_electronico, usuario.imagen_perfil)
 
         # Imprimir la consulta SQL completa
-        print("Query: ", query)
-        print("Params: ", params)
+        # print("Query: ", query)
+        # print("Params: ", params)
 
         try:
             cursor = DatabaseConnection.execute_query(query, params)
@@ -32,25 +41,43 @@ class Usuario:
             DatabaseConnection.close_connection()
             return {"mensaje": "Usuario creado exitosamente", "id_usuario": id_usuario}
         except Exception as e:
-            print("Error executing query: ", e)
+            # print("Error executing query: ", e)
             return {"error": str(e)}
 
 
     
     @classmethod
-    def get_usuario(cls, id_usuario):
-        """ Método para traer la información de un usuario. """
-        query = """SELECT nombre_usuario, contraseña, correo_electronico, imagen_perfil FROM mensajeria.usuarios WHERE id = %s;"""
-        params = id_usuario
-        resultado = DatabaseConnection.fetch_one(query, params)
-        DatabaseConnection.close_connection()
-        if resultado is not None:
-            aux = Usuario(id=id_usuario,
-                          nombre_usuario=resultado[0],
-                          contraseña=resultado[1],
-                          correo_electronico=resultado[2],
-                          imagen_perfil=resultado[3]
-                          )
-            return aux.__dict__
-        else:
-            return {'Mensaje': 'El cliente no existe'}  # Luego lo cambiamos por el manejo de errores
+    def get_usuario_por_nombre(cls, nombre_usuario):
+        """Método para traer la información de un usuario por su nombre de usuario."""
+        query = """SELECT id, contraseña, correo_electronico, imagen_perfil FROM mensajeria.usuarios WHERE nombre_usuario = %s;"""
+        params = (nombre_usuario,)
+
+        try:
+            connection = DatabaseConnection.get_connection()
+            cursor = connection.cursor()
+            cursor.execute(query, params)
+            
+            resultado = cursor.fetchone()
+            
+            if resultado is not None:
+                id_usuario, contraseña, correo_electronico, imagen_perfil = resultado
+                    
+                # Crea una instancia de Usuario con los datos obtenidos
+                usuario = Usuario(
+                    id=id_usuario,
+                    nombre_usuario=nombre_usuario,
+                    contraseña=contraseña,
+                    correo_electronico=correo_electronico,
+                    imagen_perfil=imagen_perfil
+                )
+                
+                return usuario
+            else:
+                print("Usuario no encontrado en la base de datos")
+                return None  # El usuario no existe
+        except Exception as e:
+            print("Error executing query: ", e)
+            return None  
+        finally:
+            if cursor:
+                cursor.close()
