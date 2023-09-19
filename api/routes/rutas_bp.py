@@ -35,7 +35,11 @@ def registro_usuario():
 @usuario_bp.route('/get_usuario/<int:id_usuario>', methods= ['GET'])
 def obtener_usuario(id_usuario):
     """ Metodo para obtener la info de un usuario"""
-    UsuarioController.obtener_usuario_por_id(id_usuario)
+    try:
+        user= UsuarioController.obtener_usuario_por_id(id_usuario)
+        return user, 200
+    except:
+        return {"error": "no se encontro la pagina"}, 400
     
 
 @usuario_bp.route('/crear_servidor', methods=['POST'])

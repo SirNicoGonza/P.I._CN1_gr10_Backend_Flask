@@ -40,17 +40,11 @@ class Usuario:
     @classmethod
     def get_usuario(cls, id_usuario):
         """ Método para traer la información de un usuario. """
-        query = """SELECT nombre_usuario, contraseña, correo_electronico, imagen_perfil FROM mensajeria.usuarios WHERE id = %s;"""
+        query = """SELECT * FROM mensajeria.usuarios WHERE id= %s;"""
         params = id_usuario
         resultado = DatabaseConnection.fetch_one(query, params)
         DatabaseConnection.close_connection()
         if resultado is not None:
-            aux = Usuario(id=id_usuario,
-                          nombre_usuario=resultado[0],
-                          contraseña=resultado[1],
-                          correo_electronico=resultado[2],
-                          imagen_perfil=resultado[3]
-                          )
-            return aux.__dict__
+            return resultado
         else:
             return {'Mensaje': 'El cliente no existe'}  # Luego lo cambiamos por el manejo de errores

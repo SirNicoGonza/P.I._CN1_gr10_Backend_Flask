@@ -1,4 +1,5 @@
 from api.datebase import DatabaseConnection
+from ..models.usuario_models import Usuario
 
 class UsuarioController:
     def __init__(self, **kwargs):
@@ -34,13 +35,8 @@ class UsuarioController:
     @classmethod
     def obtener_usuario_por_id(cls, id_usuario):
         # Obtener información de un usuario por su ID
-        query = "SELECT * FROM usuarios WHERE id = %s"
-        params = (id_usuario,)
-
         try:
-            cursor = DatabaseConnection.execute_query(query, params)
-            usuario_info = cursor.fetchone()
-            DatabaseConnection.close_connection()
+            usuario_info= Usuario.get_usuario(id_usuario)
             
             if usuario_info:
                 usuario = cls(
