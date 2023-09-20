@@ -25,3 +25,18 @@ class ServidorController:
             return servidores
         except Exception as e:
             return {'error', str(e)}
+    
+    @classmethod
+    def obtener_por_id(cls, id_servidor):
+        try:
+            servidor= Servidor.get_by_id(id_servidor)
+            if servidor is not None:
+                respuesta= {'id_servidor': id_servidor,
+                            'Nombre': servidor['nombre'],
+                            'Descripcion': servidor['descripcion'],
+                            'creador': servidor['creador']}
+                return respuesta
+            else:
+                return {'error':str('no existe servidor con el id {id_servidor}')}
+        except Exception as e:
+            return{'error', str(e)}

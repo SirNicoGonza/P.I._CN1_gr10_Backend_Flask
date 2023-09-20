@@ -14,6 +14,16 @@ class Servidor:
 
     def agregar_miembro(self, miembro):
         self.miembros.append(miembro)
+    
+    @classmethod
+    def serializar(cls, lista):
+        dicc={
+            'id': lista[0],
+            'nombre': lista[1],
+            'descripcion': lista[2],
+            'creador': lista[3]
+        }
+        return dicc
 
     @classmethod
     def get_servidores(cls):
@@ -23,5 +33,19 @@ class Servidor:
             return resultado
         except Exception as e:
             return {'Error':str(e)}, 500
+    
+    @classmethod
+    def get_by_id(cls,id_servidor):
+        try:
+            query= "SELECT * from mensajeria.servidores WHERE id= %s"
+            params= id_servidor
+            resultado= DatabaseConnection.fetch_one(query,(params))
+
+            if resultado is not None:
+                return Servidor.serializar(resultado)
+            else:
+                return None
+        except Exception as e:
+            return {'Error': str(e)}
 
 
