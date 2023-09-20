@@ -48,3 +48,16 @@ class Usuario:
             return resultado
         else:
             return {'Mensaje': 'El cliente no existe'}  # Luego lo cambiamos por el manejo de errores
+    
+    @classmethod
+    def update_usuario(cls, datos):
+        """ Metodo que actualiza un usario."""
+        try:
+            query= "UPDATE mensajeria.usuarios SET nombre_usuario = %s, contraseña= %s WHERE id= %s;"
+            params= (datos[0], datos[1], datos[2])
+            DatabaseConnection.execute_query(query, params)
+            return str("Exito"), 200
+        except Exception as e:
+            return {'Error': str(e)}
+
+        

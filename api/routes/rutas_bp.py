@@ -41,6 +41,16 @@ def obtener_usuario(id_usuario):
     except:
         return {"error": "no se encontro la pagina"}, 400
     
+@usuario_bp.route('/actualizar_usuario/<int:id_usuario>', methods= ['PUT'])
+def actualizar_usuario(id_usuario):
+    """Metodo para acutalizar el nombre y la contraseña del usuario con la id = 'id_usurio'."""
+    try:
+        registro= request.json
+        datos= registro.get('nombre'), registro.get('contraseña'), id_usuario
+        UsuarioController.actualizar_usuario_por_id(datos)
+        return {'mensaje':'Datos del usuario se acutalizaron con exito'}, 200
+    except:
+        return {'error':'no se encontro la pagina ...'}, 400
 
 @usuario_bp.route('/crear_servidor', methods=['POST'])
 def crear_servidor():

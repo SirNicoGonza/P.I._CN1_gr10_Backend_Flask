@@ -32,7 +32,7 @@ class DatabaseConnection:
         cursor = cls.get_connection().cursor()
         try:
             cursor.execute(query, params)
-            print("Executing SQL query: ", cursor.statement)
+            #print("Executing SQL query: ", cursor.statement)
         except Exception as e:
             print("Error executing query: ", e)
         cls._connection.commit()

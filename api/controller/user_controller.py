@@ -51,3 +51,15 @@ class UsuarioController:
                 return {"mensaje": "Usuario no encontrado"}
         except Exception as e:
             return {"error": str(e)}
+    
+    @classmethod
+    def actualizar_usuario_por_id(cls, datos):
+        # Para actualizar el nombre y la contraseña del usuario
+        try:
+            usuario= Usuario.update_usuario(datos)
+            if usuario is not None:
+                return {'mensaje': usuario}, 200
+            else:
+                return {'mensaje': 'usuario no encotrado'}, 200
+        except Exception as e:
+            return {'Error': str(e)}
