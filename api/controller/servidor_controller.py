@@ -1,5 +1,6 @@
 #Controlador de los servidores
 from api.datebase import DatabaseConnection
+from ..models.servidor_models import Servidor
 
 class ServidorController:
     @classmethod
@@ -15,3 +16,12 @@ class ServidorController:
             return {"mensaje": "Servidor creado exitosamente", "id_servidor": servidor_id}
         except Exception as e:
             return {"error": str(e)}
+    
+    @classmethod
+    def obtener_servidores(cls):
+        # Obtiene todos los servidores
+        try:
+            servidores= Servidor.get_servidores()
+            return servidores
+        except Exception as e:
+            return {'error', str(e)}

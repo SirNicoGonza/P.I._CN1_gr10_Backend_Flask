@@ -14,3 +14,14 @@ class Servidor:
 
     def agregar_miembro(self, miembro):
         self.miembros.append(miembro)
+
+    @classmethod
+    def get_servidores(cls):
+        try:
+            query= "SELECT nombre, descripcion FROM mensajeria.servidores;"
+            resultado= DatabaseConnection.fetch_all(query)
+            return resultado
+        except Exception as e:
+            return {'Error':str(e)}, 500
+
+
