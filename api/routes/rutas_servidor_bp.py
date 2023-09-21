@@ -24,3 +24,12 @@ def obtener_servidor_by_id(id_servidor):
         return jsonify({'servidor': servidor}), 200
     except:
         return jsonify({'error':'no se encontro la pagina'}), 400
+
+@servidor_bp.route('/obtener_servidor/<string:nombre_servidor>', methods= ['GET'])
+def obtener_servidor_by_nombre(nombre_servidor):
+    """Metodo que obtien el servidor que coincide con el id_servidor."""
+    try:
+        servidor= ServidorController.obtener_por_nombre(nombre_servidor)
+        return jsonify({'servidor': servidor}), 200
+    except:
+        return jsonify({'error':'no se encontro la pagina'}), 400

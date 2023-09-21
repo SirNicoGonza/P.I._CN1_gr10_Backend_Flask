@@ -53,4 +53,21 @@ class Servidor:
         except Exception as e:
             return {'Error': str(e)}
 
+    @classmethod
+    def get_by_name(cls,nombre_servidor):
+        try:
+            query= """SELECT se.id, se.nombre, se.descripcion, us.nombre_usuario FROM servidores se
+                    INNER JOIN usuarios us
+                    ON us.id = se.id_creador
+                    WHERE se.nombre= %s
+                    GROUP BY se.id, se.nombre, se.descripcion, us.nombre_usuario
+                    ORDER BY se.nombre;"""
+            params= nombre_servidor
+            resultado= DatabaseConnection.fetch_one(query,(params))
 
+            if resultado is not None:
+                return Servidor.serializar(resultado)
+            else:
+                return None
+        except Exception as e:
+            return {'Error': str(e)}
