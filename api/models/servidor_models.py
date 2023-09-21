@@ -37,7 +37,12 @@ class Servidor:
     @classmethod
     def get_by_id(cls,id_servidor):
         try:
-            query= "SELECT * from mensajeria.servidores WHERE id= %s"
+            query= """SELECT se.id, se.nombre, se.descripcion, us.nombre_usuario FROM servidores se
+                    INNER JOIN usuarios us
+                    ON us.id = se.id_creador
+                    WHERE se.id= %s
+                    GROUP BY se.id, se.nombre, se.descripcion, us.nombre_usuario
+                    ORDER BY se.nombre;"""
             params= id_servidor
             resultado= DatabaseConnection.fetch_one(query,(params))
 

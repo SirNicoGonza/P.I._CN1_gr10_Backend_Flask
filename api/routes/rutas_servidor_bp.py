@@ -21,7 +21,6 @@ def obtener_servidor_by_id(id_servidor):
     """Metodo que obtien el servidor que coincide con el id_servidor."""
     try:
         servidor= ServidorController.obtener_por_id(id_servidor)
-        print(servidor)
         return jsonify({'servidor': servidor}), 200
     except:
         return jsonify({'error':'no se encontro la pagina'}), 400
