@@ -77,3 +77,15 @@ class ServidorController:
                 return None
         except Exception as e:
             return {'Error': str(e)}
+    
+    @classmethod
+    def eliminar_servidor_id(cls, id_servidor):
+        try:
+            delete= Servidor.delete_servidor(id_servidor)
+            #print(delete)
+            if delete == True:
+                return {'mensaje': 'servidor eliminado'}
+            else:
+                return {'Error': 'no se pudo eliminar'}
+        except:
+            return {'Error': 'no se pudo conectar con la base de datos'}, 500

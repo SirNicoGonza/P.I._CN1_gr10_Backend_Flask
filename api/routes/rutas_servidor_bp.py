@@ -55,3 +55,19 @@ def obtener_canales(id_servidor):
             return jsonify({'mensaje': 'El servidor no tiene canales'}), 200
     except:
         return jsonify({'error': 'no se encontro la pagina ...'}), 400
+
+@servidor_bp.route('/eliminar_servidor/<int:id_servidor>', methods= ['DELETE'])
+def eliminar_servidor(id_servidor):
+    """ Metodo que elimina el servidor pasado por id."""
+    try:
+        respuesta=ServidorController.eliminar_servidor_id(id_servidor)
+        #print(respuesta)
+        if respuesta['mensaje'] == 'servidor eliminado':
+            return jsonify({'Delete':'Se elimino con exito'}), 204
+        elif respuesta['Error'] == 'no se pudo eliminar':
+            return jsonify({'error': 'no se completo la operacio'}), 400
+        else:
+            return jsonify({'error': 'Formato de solicitud invalido'}), 400
+            
+    except:
+        return jsonify({'error':'No se encontro la pagina ...'}), 400

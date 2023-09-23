@@ -88,7 +88,7 @@ class Servidor:
             query= """SELECT ca.nombre FROM mensajeria.canales ca
                     INNER JOIN mensajeria.servidores se
                     ON se.id = ca.id_servidor
-                    WHERE se.id= 1
+                    WHERE se.id= %s
                     GROUP BY ca.nombre
                     ORDER BY ca.nombre asc;"""
             params= (id_servidor)
@@ -98,5 +98,16 @@ class Servidor:
                 return [elemento[0] for elemento in respuesta]
             else:
                 return None
+        except Exception as e:
+            return {'Error': str(e)}
+    
+    @classmethod
+    def delete_servidor(cls, id_servidor):
+        try:
+            query= "DELETE FROM mensajeria.servidores WHERE mensajeria.servidores.id=%s;"
+            params= (id_servidor,)
+            DatabaseConnection.execute_query(query,params)
+            return True
+        
         except Exception as e:
             return {'Error': str(e)}
