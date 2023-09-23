@@ -81,4 +81,22 @@ class Servidor:
             return str("Exito al actualizar"), 200
         except Exception as e:
             return {'Error': str(e)}
-
+    
+    @classmethod
+    def get_all_canales(cls, id_servidor):
+        try:
+            query= """SELECT ca.nombre FROM mensajeria.canales ca
+                    INNER JOIN mensajeria.servidores se
+                    ON se.id = ca.id_servidor
+                    WHERE se.id= 1
+                    GROUP BY ca.nombre
+                    ORDER BY ca.nombre asc;"""
+            params= (id_servidor)
+            respuesta= DatabaseConnection.fetch_all(query,params)
+            #print(respuesta)
+            if respuesta is not None:
+                return [elemento[0] for elemento in respuesta]
+            else:
+                return None
+        except Exception as e:
+            return {'Error': str(e)}

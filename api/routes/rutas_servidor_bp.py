@@ -43,3 +43,15 @@ def actualizar_nombre_servidor(id_servidor):
         return jsonify({'servidor':'Servidor actualizado'}),200
     except:
         return jsonify({'error':'No se encontro la pagina ...'}), 400
+
+@servidor_bp.route('/canales_del_servidor/<int:id_servidor>', methods=['GET'])
+def obtener_canales(id_servidor):
+    """ Metodo que obtiene todos los canales de un servidor que coicida con el id."""
+    try:
+        canales= ServidorController.obtener_todos_canales(id_servidor)
+        if canales is not None:
+            return jsonify({'servidor': id_servidor, 'canales': canales}), 200
+        else:
+            return jsonify({'mensaje': 'El servidor no tiene canales'}), 200
+    except:
+        return jsonify({'error': 'no se encontro la pagina ...'}), 400

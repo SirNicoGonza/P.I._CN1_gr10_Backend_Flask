@@ -66,4 +66,14 @@ class ServidorController:
                 return {'Error', 'no se pudo actualizar'}, 500
         except Exception as e:
             return {'Error': str(e)}
-            
+    
+    @classmethod
+    def obtener_todos_canales(cls, id_servidor):
+        try:
+            canales= Servidor.get_all_canales(id_servidor)
+            if canales is not None:
+                return canales
+            else:
+                return None
+        except Exception as e:
+            return {'Error': str(e)}
