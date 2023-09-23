@@ -71,3 +71,14 @@ class Servidor:
                 return None
         except Exception as e:
             return {'Error': str(e)}
+        
+    @classmethod
+    def update_name(cls, datos):
+        try:
+            query= "UPDATE mensajeria.servidores SET nombre = %s WHERE id= %s;"
+            params= (datos[0], datos[1])
+            DatabaseConnection.execute_query(query,params)
+            return str("Exito al actualizar"), 200
+        except Exception as e:
+            return {'Error': str(e)}
+

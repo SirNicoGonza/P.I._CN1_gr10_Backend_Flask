@@ -33,3 +33,13 @@ def obtener_servidor_by_nombre(nombre_servidor):
         return jsonify({'servidor': servidor}), 200
     except:
         return jsonify({'error':'no se encontro la pagina'}), 400
+
+@servidor_bp.route('/actualizar_nombre/<int:id_servidor>', methods=['PUT'])
+def actualizar_nombre_servidor(id_servidor):
+    try:
+        registro= request.json
+        datos= registro.get('nombre'), id_servidor
+        ServidorController.actualizar_nombre(datos)
+        return jsonify({'servidor':'Servidor actualizado'}),200
+    except:
+        return jsonify({'error':'No se encontro la pagina ...'}), 400
