@@ -29,6 +29,18 @@ class CanalController:
         except Exception as e:
             return {'Error': str(e)}
     
+    @classmethod
+    def eliminar_canal_id(cls,id_canal):
+        try:
+            delete= Canal.delete_canal(id_canal)
+            #print(delete)
+            if delete == True:
+                return {'mensaje': 'canal eliminado'}
+            else:
+                return {'Error': 'no se pudo eliminar'}
+        except:
+            return {'Error': 'no se pudo conectar con la base de datos'}, 500
+    
  #   def _init_(self, **kwargs):
  #       self.id = kwargs.get('id')
  #       self.nombre = kwargs.get('nombre')

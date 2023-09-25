@@ -21,3 +21,13 @@ class Canal:
             return str("Exito al actualizar"), 200
         except Exception as e:
             return {'Error': str(e)}
+    @classmethod
+    def delete_canal(cls, id_canal):
+        try:
+            query= "DELETE FROM mensajeria.canales WHERE mensajeria.canales.id=%s;"
+            params= (id_canal,)
+            DatabaseConnection.execute_query(query,params)
+            return True
+        
+        except Exception as e:
+            return {'Error': str(e)}
