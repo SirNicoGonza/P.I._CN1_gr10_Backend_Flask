@@ -1,5 +1,6 @@
 #Controladro de los canales
 from api.datebase import DatabaseConnection
+from ..models.canal_models import Canal
 
 class CanalController:
 
@@ -17,7 +18,16 @@ class CanalController:
         except Exception as e:
             return {"error": str(e)}
 
-
+    @classmethod
+    def actualizar_nombre(cls,datos):
+        try:
+            servidor= Canal.update_name(datos)
+            if servidor is not None:
+                return {'mensaje':'servidor actualizado'},200
+            else:
+                return {'Error', 'no se pudo actualizar'}, 500
+        except Exception as e:
+            return {'Error': str(e)}
     
  #   def _init_(self, **kwargs):
  #       self.id = kwargs.get('id')

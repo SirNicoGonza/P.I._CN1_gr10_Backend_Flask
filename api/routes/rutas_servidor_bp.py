@@ -18,7 +18,7 @@ def obtener_servidore():
 
 @servidor_bp.route('/obtener_servidor/<int:id_servidor>', methods= ['GET'])
 def obtener_servidor_by_id(id_servidor):
-    """Metodo que obtien el servidor que coincide con el id_servidor."""
+    """Metodo que obtiene el servidor que coincide con el id_servidor."""
     try:
         servidor= ServidorController.obtener_por_id(id_servidor)
         return jsonify({'servidor': servidor}), 200
@@ -27,7 +27,7 @@ def obtener_servidor_by_id(id_servidor):
 
 @servidor_bp.route('/obtener_servidor/<string:nombre_servidor>', methods= ['GET'])
 def obtener_servidor_by_nombre(nombre_servidor):
-    """Metodo que obtien el servidor que coincide con el id_servidor."""
+    """Metodo que obtiene el servidor que coincide con el id_servidor."""
     try:
         servidor= ServidorController.obtener_por_nombre(nombre_servidor)
         return jsonify({'servidor': servidor}), 200
