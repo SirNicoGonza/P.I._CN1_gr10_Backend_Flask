@@ -29,7 +29,7 @@ class Servidor:
     def get_servidores(cls):
         try:
             query= "SELECT nombre, descripcion FROM mensajeria.servidores;"
-            resultado= DatabaseConnection.fetch_all(query)
+            resultado= DatabaseConnection.fetch_all_query(query)
             return resultado
         except Exception as e:
             return {'Error':str(e)}, 500
@@ -85,12 +85,7 @@ class Servidor:
     @classmethod
     def get_all_canales(cls, id_servidor):
         try:
-            query= """SELECT ca.nombre FROM mensajeria.canales ca
-                    INNER JOIN mensajeria.servidores se
-                    ON se.id = ca.id_servidor
-                    WHERE se.id= %s
-                    GROUP BY ca.nombre
-                    ORDER BY ca.nombre asc;"""
+            query= """SELECT mensajeria.canales.nombre FROM mensajeria.canales INNER JOIN mensajeria.servidores ON mensajeria.servidores.id = mensajeria.canales.id_servidor WHERE mensajeria.servidores.id = %s GROUP BY mensajeria.canales.nombre ORDER BY mensajeria.canales.nombre;"""
             params= (id_servidor)
             respuesta= DatabaseConnection.fetch_all(query,params)
             #print(respuesta)
@@ -105,7 +100,7 @@ class Servidor:
     def delete_servidor(cls, id_servidor):
         try:
             query= "DELETE FROM mensajeria.servidores WHERE mensajeria.servidores.id=%s;"
-            params= (id_servidor,)
+            params= (id_servidor)
             DatabaseConnection.execute_query(query,params)
             return True
         

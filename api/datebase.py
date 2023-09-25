@@ -32,7 +32,7 @@ class DatabaseConnection:
         cursor = cls.get_connection().cursor()
         try:
             cursor.execute(query, params)
-            print("Executing SQL query: ", cursor.statement)
+            #print("Executing SQL query: ", cursor.statement)
         except Exception as e:
             print("Error executing query: ", e)
         cls._connection.commit()
@@ -41,11 +41,18 @@ class DatabaseConnection:
 
     
     @classmethod
-    def fetch_all(cls, query, database_name=None, params=None):
+    def fetch_all(cls, query, params=None):
         cursor = cls.get_connection().cursor()
-        cursor.execute(query, params)
+        cursor.execute(query, (params,))
+        #print("Executing SQL query: ", cursor.statement)
         return cursor.fetchall()
     
+    @classmethod
+    def fetch_all_query(cls,query):
+        cursor= cls.get_connection().cursor()
+        cursor.execute(query)
+        return cursor.fetchall()
+
     @classmethod
     def fetch_one(cls, query, params):
         cursor = cls.get_connection().cursor()
