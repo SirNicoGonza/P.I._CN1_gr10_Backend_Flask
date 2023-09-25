@@ -41,6 +41,17 @@ class CanalController:
         except:
             return {'Error': 'no se pudo conectar con la base de datos'}, 500
     
+    @classmethod
+    def traer_mensajes_by_id(cls,id_canal):
+        try:
+            mensajes= Canal.get_mensajes(id_canal)
+            if mensajes:
+                return mensajes
+            else:
+                return None
+        except Exception as e:
+            return {'Error': str(e)}
+    
  #   def _init_(self, **kwargs):
  #       self.id = kwargs.get('id')
  #       self.nombre = kwargs.get('nombre')

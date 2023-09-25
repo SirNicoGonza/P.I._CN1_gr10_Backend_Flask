@@ -32,3 +32,17 @@ def eliminar_canal(id_canal):
             
     except:
         return jsonify({'error':'No se encontro la pagina ...'}), 400
+
+@canal_bp.route('/traer_mensajes', methods= ['GET'])
+def traer_mensajes_canal_id():
+    """ Metodo para traer todos los mensajes del canal que se pasa por el registro."""
+    try:
+        registro= request.json
+        id_canal= registro.get('id_canal')
+        mensajes= CanalController.traer_mensajes_by_id(id_canal)
+        if mensajes is not None:
+            return jsonify(mensajes),200
+        else:
+            return jsonify({'mensajes':'no hay mensajes en el canal'}),200
+    except:
+        return jsonify({'error': 'No se encontro la pagina ...'}), 400
