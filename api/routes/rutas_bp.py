@@ -1,8 +1,11 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, render_template, redirect, url_for, session, flash
 from ..models.usuario_models import Usuario  
 from ..controller.servidor_controller import ServidorController
 from ..controller.canal_controller import CanalController
 from ..controller.mensaje_controller import MensajeController
+import logging
+from flask_cors import cross_origin
+logging.basicConfig(level=logging.DEBUG)  # Configura el nivel de registro DEBUG
 
 
 # Crear un Blueprint para las rutas relacionadas con usuarios
@@ -36,7 +39,8 @@ def registro_usuario():
 
 # Ruta para el inicio de sesión
 @usuario_bp.route('/login', methods=['POST'])
-def login_usuario():
+def login():
+    logging.debug('Recibida solicitud de inicio de sesión desde el frontend')
     # Obtener los datos del formulario o del JSON de la solicitud
     datos_login = request.form
     print("Datos de inicio de sesión recibidos:", datos_login)
@@ -56,13 +60,18 @@ def login_usuario():
     # Comparar la contraseña en texto plano 
     if usuario.contraseña == datos_login.get('password'):
         # Si la contraseña es correcta, devolver una respuesta de éxito
-        return jsonify({"mensaje": "Inicio de sesión exitoso"}), 200
+        # Asegúrate de que tu objeto de usuario tiene una propiedad `id`
+        return jsonify({"mensaje": "Inicio de sesión exitoso", "user_id": usuario.id, "redirect_url": "/dashboard"}), 200
+    
     else:
         # Si la contraseña no es correcta, devolver un error
         return jsonify({"mensaje": "Error: nombre de usuario o contraseña incorrectos"}), 401
 
+    
+    
 
 @usuario_bp.route('/crear_servidor', methods=['POST'])
+@cross_origin(origins="*", supports_credentials=True)
 def crear_servidor():
     datos_servidor = request.json
     nombre = datos_servidor.get('nombre')
@@ -75,6 +84,10 @@ def crear_servidor():
         return jsonify({"mensaje": "Error al crear el servidor", "error": respuesta["error"]}), 500
 
     return jsonify({"mensaje": "Servidor creado exitosamente", "id_servidor": respuesta["id_servidor"]}), 200
+@usuario_bp.route('/crear_servidor', methods=['OPTIONS'])
+def preflight():
+    return jsonify(), 200
+
 
 
 @usuario_bp.route('/crear_canal', methods=['POST'])
@@ -90,6 +103,20 @@ def crear_canal():
         return jsonify({"mensaje": "Error al crear el canal", "error": respuesta["error"]}), 500
 
     return jsonify({"mensaje": "Canal creado exitosamente", "id_canal": respuesta["id_canal"]}), 200
+
+@usuario_bp.route('/obtener_canales/<int:id_servidor>', methods=['GET'])
+def obtener_canales(id_servidor):
+    # Llamar al método para obtener los canales por servidor
+    canales = CanalController.obtener_canales_por_servidor(id_servidor)
+
+    if "error" in canales:
+        # Si hay un error, responder con un mensaje de error
+        return jsonify({"mensaje": "Error al obtener canales", "error": canales["error"]}), 500
+
+    # Si no hay errores, responder con la lista de canales en formato JSON
+    return jsonify({"mensaje": "Canales obtenidos con éxito", "canales": canales}), 200
+
+
 
 @usuario_bp.route('/enviar_mensaje', methods=['POST'])
 def enviar_mensaje():
@@ -113,3 +140,9 @@ def obtener_mensajes(id_canal):
         return jsonify({"mensaje": "Error al obtener mensajes", "error": mensajes["error"]}), 500
 
     return jsonify({"mensajes": mensajes}), 200
+
+
+@usuario_bp.route('/dashboard', methods=['GET'])
+def dashboard():
+    # Aquí va tu código para manejar la ruta del dashboard
+    return "Esta es la página del dashboard"

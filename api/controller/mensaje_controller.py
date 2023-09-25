@@ -9,14 +9,16 @@ class MensajeController:
         # Implementa la lógica para obtener todos los mensajes de un canal específico
         query = "SELECT * FROM mensajes WHERE id_canal = %s"
         params = (id_canal,)
-        
+
         try:
-            # Ejecuta la consulta y obtén los mensajes
-            mensajes = DatabaseConnection.fetch_all(query, params)
+            connection = DatabaseConnection.get_connection()
+            cursor = connection.cursor(dictionary=True)  # Establece el cursor para devolver resultados como un diccionario
+            cursor.execute(query, params)  # Ejecuta la consulta con los parámetros
+            mensajes = cursor.fetchall()  # Obtiene todos los mensajes como un conjunto de diccionarios
+            cursor.close()  # Cierra el cursor
             return mensajes
         except Exception as e:
             return {"error": str(e)}
-
     @classmethod
     def enviar_mensaje(cls, contenido, id_canal, id_remitente):
         # Implementa la lógica para enviar un mensaje a un canal específico

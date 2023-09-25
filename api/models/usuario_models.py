@@ -10,20 +10,14 @@ class Usuario():
         self.imagen_perfil = kwargs.get('imagen_perfil')
         self.amigos = []  # Lista de amigos
         self.servidores = []  # Lista de servidores a los que pertenece
-
+        self.is_active = True  # Añadir un atributo is_active
+        
     def agregar_amigo(self, amigo):
         self.amigos.append(amigo)
 
     def unirse_a_servidor(self, servidor):
         self.servidores.append(servidor)
    
-    def get_id(self):
-        """Método requerido por Flask-Login para obtener la ID del usuario"""
-        return str(self.id)
-
-    def is_authenticated(self):
-        """Método requerido por Flask-Login para verificar si el usuario está autenticado"""
-        return True
    
     @classmethod
     def crear_usuario(cls, usuario):
@@ -44,7 +38,14 @@ class Usuario():
             # print("Error executing query: ", e)
             return {"error": str(e)}
 
-
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'nombre_usuario': self.nombre_usuario,
+            'contraseña': self.contraseña,
+            'correo_electronico': self.correo_electronico,
+            'imagen_perfil': self.imagen_perfil
+        }
     
     @classmethod
     def get_usuario_por_nombre(cls, nombre_usuario):
@@ -81,3 +82,6 @@ class Usuario():
         finally:
             if cursor:
                 cursor.close()
+
+
+   
