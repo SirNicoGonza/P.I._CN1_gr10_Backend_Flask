@@ -5,6 +5,7 @@ from config import Config
 from .routes.rutas_bp import usuario_bp
 from .routes.rutas_servidor_bp import servidor_bp
 from .routes.rutas_canal_bp import canal_bp
+from .routes.rutas_mensajes_bp import mensaje_bp
 from .datebase import DatabaseConnection
 
 def init_app():
@@ -27,5 +28,8 @@ def init_app():
 
     #Se registra el Blueprint de canales
     app.register_blueprint(canal_bp, url_prefix='/canal')
+
+    #Se registra el Blueprint de mensajes
+    app.register_blueprint(mensaje_bp, url_prefix='/mensaje')
     
     return app

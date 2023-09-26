@@ -1,7 +1,6 @@
-
-
 # mensaje_controller.py
 from api.datebase import DatabaseConnection
+from ..models.mensaje_models import Mensaje
 
 class MensajeController:
     @classmethod
@@ -31,3 +30,26 @@ class MensajeController:
             return {"mensaje": "Mensaje enviado exitosamente", "id_mensaje": mensaje_id}
         except Exception as e:
             return {"error": str(e)}
+        
+    @classmethod
+    def modificar_mensaje(cls, id_mensaje, mensaje_new):
+        try:
+            mensaje= Mensaje.update_mensaje(id_mensaje,mensaje_new)
+            if mensaje is not None:
+                return str('mensaje actualizado'), 200
+            else:
+                return None
+        except Exception as e:
+            return {"error": str(e)}
+    
+    @classmethod
+    def eliminar_mensaje_id(cls, id_mensaje):
+        try:
+            delete= Mensaje.delete_mensaje(id_mensaje)
+            #print(delete)
+            if delete == True:
+                return {'mensaje': 'mensaje eliminado'}
+            else:
+                return {'Error': 'no se pudo eliminar'}
+        except:
+            return {'Error': 'no se pudo conectar con la base de datos'}, 500
