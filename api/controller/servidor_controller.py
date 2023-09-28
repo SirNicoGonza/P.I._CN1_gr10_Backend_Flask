@@ -6,14 +6,19 @@ class ServidorController:
     @classmethod
     def crear_servidor(cls, id_creador, nombre, descripcion):
         # Crear un nuevo servidor en la base de datos
-        query = "INSERT INTO servidores (nombre, descripcion, id_creador) VALUES (%s, %s, %s)"
-        params = (nombre, descripcion, id_creador)
+        query = "INSERT INTO servidores (nombre, descripcion) VALUES (%s, %s)"
+        params = (nombre, descripcion)
 
         try:
             cursor = DatabaseConnection.execute_query(query, params)
-            servidor_id = cursor.lastrowid
+            id_servidor = cursor.lastrowid
             DatabaseConnection.close_connection()
-            return {"mensaje": "Servidor creado exitosamente", "id_servidor": servidor_id}
+            query= "INSERT INTO mensajeria.nexo (id_usuario, id_servidor) VALUES(%s,%s);"
+            params= (id_creador, id_servidor)
+            DatabaseConnection.execute_query(query,params)
+
+            return {"mensaje": "Servidor creado exitosamente", "id_servidor": id_servidor}
+        
         except Exception as e:
             return {"error": str(e)}
     

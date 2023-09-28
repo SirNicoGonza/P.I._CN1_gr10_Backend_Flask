@@ -37,7 +37,7 @@ class Canal:
         try:
             query= """SELECT mensajeria.mensajes.contenido, mensajeria.mensajes.fecha_hora, mensajeria.usuarios.nombre_usuario FROM mensajeria.mensajes
                     INNER JOIN mensajeria.usuarios
-                    ON mensajeria.usuarios.id= mensajeria.mensajes.id_remitente
+                    ON mensajeria.usuarios.id= mensajeria.mensajes.id_usuario
                     INNER JOIN mensajeria.canales
                     ON mensajeria.canales.id= mensajeria.mensajes.id_canal
                     WHERE mensajeria.canales.id=%s

@@ -23,8 +23,8 @@ class Usuario:
         params = (usuario.nombre_usuario, usuario.contraseña, usuario.correo_electronico, usuario.imagen_perfil)
 
         # Imprimir la consulta SQL completa
-        print("Query: ", query)
-        print("Params: ", params)
+        #print("Query: ", query)
+        #print("Params: ", params)
 
         try:
             cursor = DatabaseConnection.execute_query(query, params)

@@ -5,10 +5,10 @@ from ..models.canal_models import Canal
 class CanalController:
 
     @classmethod
-    def crear_canal(cls, nombre, id_servidor, id_usuario):
+    def crear_canal(cls, nombre, id_servidor):
         # Crea un nuevo canal en la base de datos
-        query = "INSERT INTO canales (nombre, id_servidor, id_creador) VALUES (%s, %s, %s)"
-        params = (nombre, id_servidor, id_usuario)
+        query = "INSERT INTO canales (nombre, id_servidor) VALUES (%s, %s)"
+        params = (nombre, id_servidor)
 
         try:
             cursor = DatabaseConnection.execute_query(query, params)
@@ -23,7 +23,7 @@ class CanalController:
         try:
             servidor= Canal.update_name(datos)
             if servidor is not None:
-                return {'mensaje':'servidor actualizado'},200
+                return {'mensaje':'canal actualizado'},200
             else:
                 return {'Error', 'no se pudo actualizar'}, 500
         except Exception as e:

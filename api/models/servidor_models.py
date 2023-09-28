@@ -38,9 +38,11 @@ class Servidor:
     def get_by_id(cls,id_servidor):
         try:
             query= """SELECT se.id, se.nombre, se.descripcion, us.nombre_usuario FROM servidores se
+                    INNER JOIN nexo ne
+                    ON ne.id_servidor = se.id
                     INNER JOIN usuarios us
-                    ON us.id = se.id_creador
-                    WHERE se.id= %s
+                    ON  us.id= ne.id_usuario
+                    WHERE se.id=%s
                     GROUP BY se.id, se.nombre, se.descripcion, us.nombre_usuario
                     ORDER BY se.nombre;"""
             params= id_servidor
@@ -57,9 +59,11 @@ class Servidor:
     def get_by_name(cls,nombre_servidor):
         try:
             query= """SELECT se.id, se.nombre, se.descripcion, us.nombre_usuario FROM servidores se
+                    INNER JOIN nexo ne
+                    ON ne.id_servidor = se.id
                     INNER JOIN usuarios us
-                    ON us.id = se.id_creador
-                    WHERE se.nombre= %s
+                    ON  us.id= ne.id_usuario
+                    WHERE se.nombre=%s
                     GROUP BY se.id, se.nombre, se.descripcion, us.nombre_usuario
                     ORDER BY se.nombre;"""
             params= nombre_servidor
@@ -100,7 +104,7 @@ class Servidor:
     def delete_servidor(cls, id_servidor):
         try:
             query= "DELETE FROM mensajeria.servidores WHERE mensajeria.servidores.id=%s;"
-            params= (id_servidor)
+            params= (id_servidor,)
             DatabaseConnection.execute_query(query,params)
             return True
         

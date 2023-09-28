@@ -7,7 +7,7 @@ class Mensaje:
         self.contenido = kwargs.get('contenido')
         self.fecha_hora = kwargs.get('fecha_hora')
         self.id_canal = kwargs.get('id_canal')
-        self.id_remitente = kwargs.get('id_remitente')
+        self.id_remitente = kwargs.get('id_usuario')
 
     def __str__(self):
         return f"{self.fecha_hora}: {self.id_remitente} - {self.contenido}"
@@ -15,7 +15,7 @@ class Mensaje:
     @classmethod
     def update_mensaje(cls,id_mensaje,mensaje_new):
         try:
-            query= "UPDATE mensajeria.mensajes SET contenido=%s WHERE id=%s;"
+            query= "UPDATE mensajeria.mensajes SET contenido=%s WHERE id_mensaje=%s;"
             params= (mensaje_new, id_mensaje)
             DatabaseConnection.execute_query(query,params)
             return str("update"), 200
@@ -26,7 +26,7 @@ class Mensaje:
     @classmethod
     def delete_mensaje(cls,id_mensaje):
         try:
-            query= "DELETE FROM mensajeria.mensajes WHERE mensajeria.mensajes.id=%s;"
+            query= "DELETE FROM mensajeria.mensajes WHERE mensajeria.mensajes.id_mensaje=%s;"
             params= (id_mensaje,)
             DatabaseConnection.execute_query(query,params)
             return True
