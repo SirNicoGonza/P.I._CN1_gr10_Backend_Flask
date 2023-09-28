@@ -125,12 +125,14 @@ def enviar_mensaje():
     id_canal = datos_mensaje.get('id_canal')
     id_remitente = datos_mensaje.get('id_remitente')  # El ID del usuario que envía el mensaje
 
+    # Llama al controlador para enviar el mensaje
     respuesta = MensajeController.enviar_mensaje(contenido, id_canal, id_remitente)
 
     if "error" in respuesta:
         return jsonify({"mensaje": "Error al enviar el mensaje", "error": respuesta["error"]}), 500
 
     return jsonify({"mensaje": "Mensaje enviado exitosamente", "id_mensaje": respuesta["id_mensaje"]}), 200
+
 
 @usuario_bp.route('/obtener_mensajes/<int:id_canal>', methods=['GET'])
 def obtener_mensajes(id_canal):
@@ -146,3 +148,4 @@ def obtener_mensajes(id_canal):
 def dashboard():
     # Aquí va tu código para manejar la ruta del dashboard
     return "Esta es la página del dashboard"
+
