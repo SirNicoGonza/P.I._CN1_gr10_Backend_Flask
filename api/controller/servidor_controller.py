@@ -1,21 +1,17 @@
-#Controladro de los servidores
+#Controlador de los servidores
+from api.datebase import DatabaseConnection
+
 class ServidorController:
-    ###Aqui definimos los metodos de clase
     @classmethod
-    def crear_servidor(cls, id_usuario, nombre):
-        pass
-    
+    def crear_servidor(cls, id_creador, nombre, descripcion):
+        # Crear un nuevo servidor en la base de datos
+        query = "INSERT INTO servidores (nombre, descripcion, id_creador) VALUES (%s, %s, %s)"
+        params = (nombre, descripcion, id_creador)
 
-    def __init__(self, **kwargs):
-        self.id = kwargs.get('id')
-        self.nombre = kwargs.get('nombre')
-        self.descripcion = kwargs.get('descripcion')
-        self.id_creador = kwargs.get('id_creador')
-        self.canales = []  # Lista de canales dentro del servidor
-        self.miembros = []  # Lista de miembros (usuarios) del servidor
-
-    def agregar_canal(self, canal):
-        self.canales.append(canal)
-
-    def agregar_miembro(self, miembro):
-        self.miembros.append(miembro)
+        try:
+            cursor = DatabaseConnection.execute_query(query, params)
+            servidor_id = cursor.lastrowid
+            DatabaseConnection.close_connection()
+            return {"mensaje": "Servidor creado exitosamente", "id_servidor": servidor_id}
+        except Exception as e:
+            return {"error": str(e)}
