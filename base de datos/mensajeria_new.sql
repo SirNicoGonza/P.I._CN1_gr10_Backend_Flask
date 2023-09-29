@@ -18,6 +18,10 @@
 --
 -- Table structure for table `canales`
 --
+CREATE SCHEMA IF NOT EXISTS mensajeria;
+
+--
+--
 
 DROP TABLE IF EXISTS `canales`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
