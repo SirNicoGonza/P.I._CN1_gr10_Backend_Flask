@@ -32,7 +32,7 @@ def init_app():
     app.register_blueprint(usuario_bp, url_prefix='/usuario')
 
     # Configuramos la ruta para servir archivos estáticos desde el frontend
-    frontend_folder = 'D:\\UPATECO\\proyecto_front\\frontend\\miappfrontend'
+    frontend_folder = 'C:\\Users\\Sir Nico\\Desktop\\UPATECO\\Programacion 2\\Proyecto Integrador\\frontend'
     app.static_folder = frontend_folder + '\\static'
     app.template_folder = frontend_folder + '\\templates'
     

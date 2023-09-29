@@ -4,10 +4,10 @@ from api.datebase import DatabaseConnection
 class CanalController:
 
     @classmethod
-    def crear_canal(cls, nombre, id_servidor, id_usuario):
+    def crear_canal(cls, nombre, id_servidor):
         # Crea un nuevo canal en la base de datos
-        query = "INSERT INTO canales (nombre, id_servidor, id_creador) VALUES (%s, %s, %s)"
-        params = (nombre, id_servidor, id_usuario)
+        query = "INSERT INTO canales (nombre, id_servidor) VALUES (%s, %s)"
+        params = (nombre, id_servidor)
 
         try:
             cursor = DatabaseConnection.execute_query(query, params)

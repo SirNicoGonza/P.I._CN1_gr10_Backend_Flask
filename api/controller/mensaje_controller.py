@@ -22,7 +22,7 @@ class MensajeController:
     @classmethod
     def enviar_mensaje(cls, contenido, id_canal, id_remitente):
         # Implementa la lógica para enviar un mensaje a un canal específico
-        query = "INSERT INTO mensajes (contenido, id_canal, id_remitente) VALUES (%s, %s, %s)"
+        query = "INSERT INTO mensajes (contenido, id_canal, id_usuario) VALUES (%s, %s, %s)"
         params = (contenido, id_canal, id_remitente)
         
         try:

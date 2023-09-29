@@ -3,10 +3,10 @@ from api.datebase import DatabaseConnection
 
 class ServidorController:
     @classmethod
-    def crear_servidor(cls, id_creador, nombre, descripcion):
+    def crear_servidor(cls, nombre, descripcion):
         # Crear un nuevo servidor en la base de datos
-        query = "INSERT INTO servidores (nombre, descripcion, id_creador) VALUES (%s, %s, %s)"
-        params = (nombre, descripcion, id_creador)
+        query = "INSERT INTO servidores (nombre, descripcion) VALUES (%s, %s)"
+        params = (nombre, descripcion)
 
         try:
             cursor = DatabaseConnection.execute_query(query, params)

@@ -76,9 +76,9 @@ def crear_servidor():
     datos_servidor = request.json
     nombre = datos_servidor.get('nombre')
     descripcion = datos_servidor.get('descripcion')
-    id_creador = datos_servidor.get('id_creador')  #  el ID del usuario que crea el servidor
+ #  el ID del usuario que crea el servidor
 
-    respuesta = ServidorController.crear_servidor(id_creador, nombre, descripcion)
+    respuesta = ServidorController.crear_servidor(nombre, descripcion)
 
     if "error" in respuesta:
         return jsonify({"mensaje": "Error al crear el servidor", "error": respuesta["error"]}), 500
@@ -95,9 +95,9 @@ def crear_canal():
     datos_canal = request.json
     nombre = datos_canal.get('nombre')
     id_servidor = datos_canal.get('id_servidor')
-    id_creador = datos_canal.get('id_creador')  # ID del usuario que crea el canal
+    #id_creador = datos_canal.get('id_creador')  # ID del usuario que crea el canal
 
-    respuesta = CanalController.crear_canal(nombre, id_servidor, id_creador)
+    respuesta = CanalController.crear_canal(nombre, id_servidor)
 
     if "error" in respuesta:
         return jsonify({"mensaje": "Error al crear el canal", "error": respuesta["error"]}), 500
